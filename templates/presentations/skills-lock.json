@@ -1,11 +1,20 @@
 {
-  "version": 1,
-  "skills": {
-    "slidev": {
-      "source": "slidevjs/slidev",
-      "sourceType": "github",
-      "skillPath": "skills/slidev/SKILL.md",
-      "computedHash": "64746507a65f5cae5386d2fd3acefc7f77edf7c4b60de596d7b1cabec87db11e"
-    }
+  "package": "@open-slide/core",
+  "version": "2.0.0",
+  "source": "https://www.npmjs.com/package/@open-slide/core/v/2.0.0",
+  "license": "MIT",
+  "files": {
+    "apply-comments/SKILL.md": "3444ad9c5312f098351de8780ed0c5460507d83488506459bd947bbb51d615e6",
+    "create-slide/SKILL.md": "00edf85ff338d65b9debb2d33bd83abc6cfa944aa2e64fb976fa3f3c295742e6",
+    "create-theme/SKILL.md": "d1a056551f501153330ed3cc82340d5ddd6e4783e1e6fa176be9c25136a5eb4f",
+    "current-slide/SKILL.md": "c58ccbd0177c37480fbfb9f9154918e39ba4feee77ed64c24a4ec72ea76fb109",
+    "slide-authoring/references/assets.md": "0ef6282213ee69a26c7cec598c9eff7c8d2feb88259164bbfeb927c5a623ca22",
+    "slide-authoring/references/design-system.md": "23a4177c898596c332c1d22612f167abc0086ffb36be48ef6411ae5e72585561",
+    "slide-authoring/references/morph.md": "ec4dab01d9e6ed7ff4c96eaf3c50341c389f17fc789694ee8eb6003a76e81850",
+    "slide-authoring/references/page-numbers.md": "1093b449473fcfd8ea729fd061b429a6d428a0ee9b50807a76c3c780bd62cf9c",
+    "slide-authoring/references/steps.md": "0623bfb9e716c5a16adac9f20037746512a6e6e03019262f824e1b15d4aa3ac6",
+    "slide-authoring/references/transitions.md": "635522a67cc151e012d09c74aa6646a528a57fcaa08eee2d229d5bdc9d945f2f",
+    "slide-authoring/references/webfonts.md": "718ee86a9345aa8a65cdde3b647ec41aa114e83bc0c1aa21411b3916214aa232",
+    "slide-authoring/SKILL.md": "48d4957ca6b2a151669af53be7ae301fc9efef2ff9efac540cde3a7a98d2a656"
   }
 }

@@ -1,23 +1,24 @@
 {
   "name": "smallforce-presentation",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "private": true,
   "type": "module",
   "packageManager": "bun@1.3.4",
   "scripts": {
-    "dev": "slidev slides.md --open",
-    "build": "bun scripts/build.mjs",
-    "build:slides": "slidev build slides.md --out dist/client --router-mode hash",
-    "export": "slidev export slides.md",
-    "export:pdf": "slidev export slides.md --format pdf --with-clicks false",
-    "export:pptx": "slidev export slides.md --format pptx --with-clicks false",
-    "inspect:package": "bun .agents/skills/create-presentation/scripts/inspect-package.ts",
-    "refresh:catalog": "bun .agents/skills/create-presentation/scripts/refresh-catalog.ts",
-    "test": "bun test"
+    "dev": "open-slide dev",
+    "build": "node scripts/build.mjs",
+    "preview": "open-slide preview",
+    "test": "bun test",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@open-slide/core": "2.0.0",
+    "react": "19.2.8",
+    "react-dom": "19.2.8"
   },
   "devDependencies": {
-    "@slidev/cli": "52.19.0",
-    "@slidev/theme-default": "0.25.0",
-    "playwright-chromium": "1.62.1"
+    "@types/react": "19.2.18",
+    "@types/react-dom": "19.2.5",
+    "typescript": "6.0.3"
   }
 }
