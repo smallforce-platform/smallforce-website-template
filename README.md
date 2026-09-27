@@ -8,7 +8,7 @@ module graph plus optional immutable browser assets.
 | --- | --- | --- |
 | `tanstack` | Full-stack products, dashboards, portals, CRMs, and internal tools | Worker + assets |
 | `astro` | Public, marketing, and content-heavy websites | Worker + assets |
-| `presentations` | Interactive Slidev presentations authored in Markdown | Worker + assets |
+| `presentations` | Editable OpenSlide presentations authored in React | Worker + assets |
 | `worker` | APIs, webhooks, and Worker-first applications | Worker only |
 
 Do not clone this repository manually to create an application. Let the CLI

@@ -17,7 +17,7 @@ export default {
       return response;
     }
 
-    // Slidev is a client-side application. Unknown presentation routes load
+    // OpenSlide is a client-side application. Unknown presentation routes load
     // its index so presenter, overview, export, and history routes resolve.
     return env.ASSETS.fetch(
       new Request(new URL("/index.html", request.url), request),

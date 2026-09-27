@@ -1,77 +1,31 @@
-# SmallForce Slidev presentation guide
+# SmallForce OpenSlide presentation guide
 
-Create a finished presentation for the customer's topic. Use Slidev's native
-Markdown, Vue, interaction, presenter, recording, drawing, and export features.
+Create a finished presentation for the customer's topic using pinned OpenSlide 2.0.
+Read `.agents/skills/create-presentation/SKILL.md` for the SmallForce workflow and
+`.agents/skills/slide-authoring/SKILL.md` for the official React slide contract.
+The same skills are available in the OS global bootstrap; use either copy.
 
-## Required skills
+Author decks in `slides/<id>/index.tsx`, reusable themes in `themes/`, and media
+in `assets/`. Replace the starter content. Inspect every page and exported file.
+Use the official create-slide, apply-comments and create-theme skills as needed.
 
-- Use `.agents/skills/create-presentation/` for the SmallForce workflow,
-  quality bar, theme/add-on policy, and deployment contract.
-- Use `.agents/skills/slidev/` for Slidev syntax and feature details. Read only
-  the references needed for the current deck.
-- Keep Slidev as the presentation framework; do not add another one.
+Share the authenticated editor with `smallforce app editor --deck <id> --json`.
+Invite direct edits or comments on slides/elements. When asked, apply comments
+and return the same URL. Comments do not automatically trigger an agent. All
+members of the owning organization may edit; coordinate saves to avoid conflicts.
 
-## Source contract
+Once the user approves the saved deck, stop the editor, run tests/typecheck,
+and publish with `smallforce app deploy --environment production --json`.
+Verify the returned production URL before reporting it live. The editor runs
+in the customer's OS; the compiled published presentation runs on Celld.
 
-- Author the deck in `slides.md`.
-- Put reusable Vue components in `components/`.
-- Put global styles in `style.css` and reusable layouts in `layouts/` only
-  when they improve the deck.
-- Put deck assets in `public/assets/` and reference them as `/assets/<name>`.
-- Replace the starter content. Do not ship filler, duplicate layouts, generic
-  instructions, theme demos, or unlicensed demo assets.
-- Keep speaker notes useful and verify overflow, contrast, hierarchy,
-  alignment, click order, transitions, presenter mode, and production build.
+Preserve `scripts/build.mjs`, `scripts/build-slides.mjs`, `worker/entry.mjs`,
+and the normalized build paths in `smallforce.json`: `dist/client` assets plus
+`dist/worker/entry.mjs`. The build uses a reviewed-source snapshot, excludes .env
+loading, and aborts if source changes during compilation. Managed editing uses
+fixed slides/themes/assets paths; project Vite/server configuration is not loaded.
 
-## Theme and add-on dependencies
-
-Only the default theme is bundled. Do not ask Slidev's development prompt to
-install a missing package implicitly. Follow the package workflow in the
-`create-presentation` skill: inspect, pin, install, configure, and build-test.
-Use built-in Slidev capabilities before adding a community add-on.
-
-## Preserve the SmallForce adapter
-
-Do not remove or bypass:
-
-- `scripts/build.mjs`;
-- `worker/entry.mjs`; or
-- the build paths in `smallforce.json`.
-
-`bun run build` creates Slidev's static production application under
-`dist/client`, then copies the Worker that serves those assets through
-`env.ASSETS`. The deployed release is immutable. Edit locally and deploy a new
-release.
-
-## Development and deployment
-
-```sh
-bun install
-bun run dev
-bun run build
-smallforce app deploy
-smallforce app status
-```
-
-Do not add vendor-specific hosting configuration or run Wrangler. SmallForce
-owns the hostname, release storage, runtime, activation, access control, and
-observability. Never place API keys, passwords, OAuth credentials, or other
-secrets in the presentation source or browser bundle.
-
-The deployed Worker technically receives the standard SmallForce `env.DB`,
-`env.STORAGE`, `env.AI`, `env.INTEGRATIONS`, and `env.TELEMETRY` server
-bindings, but a presentation should not use them by default. Slidev content
-runs in the browser and must never receive a binding, provider key, or AI
-response credential.
-
-**Public-app AI warning:** presentations are normally public, static content.
-Do not add an anonymous server endpoint that calls `env.AI`; any visitor could
-repeatedly trigger spend against the organization's dollar-capped OpenRouter
-key. Generate presentation content during authoring instead. If the customer
-explicitly requires authenticated runtime AI, treat that as a different
-full-stack application design with authorization and abuse controls.
-
-Do not add an anonymous server endpoint that calls `env.INTEGRATIONS` either;
-it could execute reads or mutations through an organization's provider
-connection. An explicitly requested authenticated workflow belongs in a
-full-stack app with narrow authorization and validated inputs.
+Never expose an unprotected dev server or put platform/provider credentials in
+source or assets. Do not add anonymous endpoints that call env.AI or
+ env.INTEGRATIONS. Presentation authoring and export do not require runtime
+provider access. SmallForce manages publication; do not add vendor hosting config.

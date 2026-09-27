@@ -1,4 +1,0 @@
-interface:
-  display_name: "Create Slidev Presentation"
-  short_description: "Create polished, deployable Slidev presentations"
-  default_prompt: "Use $create-presentation to create a polished Slidev deck for my audience."
