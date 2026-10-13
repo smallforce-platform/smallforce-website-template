@@ -76,3 +76,30 @@ editing. `smallforce.json` is owned jointly by the project and CLI: the template
 supplies the build contract, and the CLI fills in stable application identity
 and the backend URL. Release IDs, environment pointers, deployment state, and
 public URLs remain live control-plane state and are never cached in the file.
+
+## Maintaining the TanStack template
+
+Keep dependency versions exact and commit the regenerated Bun lockfile. Review
+TanStack's migration notes and the Cloudflare Vite adapter requirements before
+upgrading. Preserve the Celld compatibility date and custom server entry unless
+a runtime change has been separately qualified.
+
+From `templates/tanstack`, run:
+
+```sh
+bun install --frozen-lockfile
+bun run check
+```
+
+Then run the repository's integration tests from its root with a built
+SmallForce Celld binary:
+
+```sh
+SMALLFORCE_CELLD_BIN=/absolute/path/to/celld node --test test/tanstack-runtime.test.mjs
+```
+
+These tests load the production module graph as a Dynamic Worker and verify
+SSR, browser assets, HEAD requests, and missing-page responses. They use
+temporary local state and do not deploy an application. The maintenance test
+stays outside `templates/`, so generated customer apps do not inherit a Celld
+binary dependency or a test framework.

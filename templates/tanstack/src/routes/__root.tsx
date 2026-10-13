@@ -48,7 +48,7 @@ export const Route = createRootRouteWithContext<RouterContext>()({
     >
       {import.meta.env.DEV ? (
         <pre className="mt-4 max-w-2xl overflow-auto rounded-lg bg-muted p-4 text-left text-xs">
-          {error.message}
+          {error instanceof Error ? error.message : "An unexpected error occurred."}
         </pre>
       ) : null}
     </StatusView>
