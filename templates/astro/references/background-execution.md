@@ -78,7 +78,7 @@ export const background: ApplicationBackgroundHandlers<JobMessage> = {};
 ```
 
 Start instances from a server-only Astro page or API route through the typed
-`env.ORDER_WORKFLOW` binding. Celld owns durable steps, retries, sleeps, events,
+`env.ORDER_WORKFLOW` binding. SmallForce manages durable steps, retries, sleeps, events,
 pause/resume, restart, and crash replay. SmallForce resolves the environment's
 current release whenever the Workflow wakes. Keep the Workflow `name`,
 `class_name`, and persisted step history compatible while instances remain

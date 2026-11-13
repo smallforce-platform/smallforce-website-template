@@ -83,7 +83,7 @@ evaluation.
   adapter. Application code normally does not call it.
 
 Do not create `sf.*`, SDK, proxy, or runtime-helper wrappers around these
-bindings. Do not add S3, D1, R2, KV, or Celld credentials. Do not add
+bindings. Do not add storage, hosting, or provider credentials. Do not add
 customer-selectable DB/storage flags; both bindings are always present.
 
 ## Workflows, Queues, and Cron Triggers

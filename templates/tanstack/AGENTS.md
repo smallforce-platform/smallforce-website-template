@@ -42,7 +42,7 @@ it.
 - `src/background.ts`: Workflow class exports plus Queue and Cron handlers.
 - `src/env.d.ts`: public SmallForce bindings and application-specific binding
   types.
-- `smallforce.json`: application identity, build output, Celld compatibility,
+- `smallforce.json`: application identity, build output, runtime compatibility,
   bindings, and background declarations. Keep the template's
   `compatibilityDate` and `nodejs_compat` flag; TanStack Start's Worker bundle
   uses the Cloudflare Node compatibility layer.
@@ -193,7 +193,7 @@ import { env } from "cloudflare:workers"
   components do not call it directly.
 
 Do not create `sf.*`, `context.env`, SDK, proxy, or runtime-helper wrappers
-around these bindings. Do not add Cloudflare, D1, R2, S3, or Celld credentials.
+around these bindings. Do not add hosting, storage, or provider credentials.
 The platform supplies the bindings directly.
 
 Local development can exercise routes, UI, server functions that do not use a

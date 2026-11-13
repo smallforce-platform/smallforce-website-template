@@ -17,7 +17,13 @@ members of the owning organization may edit; coordinate saves to avoid conflicts
 Once the user approves the saved deck, stop the editor, run tests/typecheck,
 and publish with `smallforce app deploy --environment production --json`.
 Verify the returned production URL before reporting it live. The editor runs
-in the customer's OS; the compiled published presentation runs on Celld.
+in the customer's OS; SmallForce manages publication and hosting.
+
+Draft editing requires no deployment. Inspect the returned HTTPS editor URL
+with `agent-browser app <editor-url>` before sharing it with the user. This
+uses your existing employee token and project file permissions without user
+sign-in. The user receives the original HTTPS link; the session-local browser
+URL must not be shared. Replace or remove the starter deck as needed.
 
 Preserve `scripts/build.mjs`, `scripts/build-slides.mjs`, `worker/entry.mjs`,
 and the normalized build paths in `smallforce.json`: `dist/client` assets plus
