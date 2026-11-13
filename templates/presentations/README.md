@@ -7,6 +7,7 @@ speaker notes and editable PowerPoint/PDF export from the browser.
 bun install --frozen-lockfile
 bun run dev                           # local authoring only
 smallforce app editor --deck getting-started --json
+agent-browser app <returned-editor-url> # employee inspection, no deployment/sign-in
 bun run test
 bun run typecheck
 smallforce app deploy --environment production --json
@@ -18,7 +19,7 @@ keeps it running; `smallforce app editor stop` or an OS restart stops it. Source
 files persist. Agent-applied comments require asking the agent to process them.
 
 Approve the saved deck before publication. The build snapshots slides/themes/assets,
-compiles to `dist/client`, adds the Celld Worker at `dist/worker/entry.mjs`, and
+compiles to `dist/client`, adds the application Worker at `dist/worker/entry.mjs`, and
 aborts if source changes during the build. Ordinary `app deploy` targets Preview;
 `--environment production` also promotes and waits for the same release in Production.
 

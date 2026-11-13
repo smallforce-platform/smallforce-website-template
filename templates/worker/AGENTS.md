@@ -15,7 +15,7 @@ surface narrow and intentional.
 - This template has no immutable browser assets, so its
   `build.assetsDirectory` is `null` and application code should not depend on
   `env.ASSETS`.
-- Do not add S3, D1, R2, KV, Celld, or SmallForce control-plane credentials.
+- Do not add storage, hosting, provider, or SmallForce control-plane credentials.
 - Do not add DB/storage capability flags. Both app-scoped bindings are always
   present.
 

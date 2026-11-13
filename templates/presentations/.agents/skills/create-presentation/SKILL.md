@@ -1,6 +1,6 @@
 ---
 name: create-presentation
-description: Create an OpenSlide presentation, share its authenticated editable preview, apply slide or element comments, and publish the approved saved deck through SmallForce Celld. Use for new presentations and edits to existing OpenSlide projects.
+description: Create an OpenSlide presentation, inspect its draft, share its authenticated editable preview, apply slide or element comments, and publish the approved saved deck through SmallForce. Use for new presentations and edits to existing OpenSlide projects.
 ---
 
 # SmallForce presentation workflow
@@ -14,8 +14,9 @@ Read `smallforce app init --help`, `smallforce app editor --help`, and
 Initialize a new project with `smallforce app init --template presentations`
 and the appropriate name, slug and directory options from live help. Respect
 an existing project and its `smallforce.json`; do not initialize it again.
-Initialization creates the same application ID used for editing and Celld
-publication and registers the source folder in this customer's OS.
+Initialization creates the same application ID used for editing and publication
+and registers the source folder in this customer's OS. A draft can be edited
+and inspected immediately; no deployment or production publication is required.
 
 Read the official sibling [create-slide](../create-slide/SKILL.md) and
 [slide-authoring](../slide-authoring/SKILL.md) skills for authoring. These pinned
@@ -40,17 +41,33 @@ From the registered project, run:
 smallforce app editor --deck <deck-id> --json
 ```
 
+Inspect the returned editor URL with the OS-managed browser before sharing:
+
+```sh
+agent-browser app <returned-editor-url>
+agent-browser snapshot -i
+```
+
+This employee command uses your existing token and the registered project's
+file permissions. It opens a private, session-local view of the same draft
+without asking the user to sign in. Use the normal managed browser commands
+to inspect every page, take screenshots and check browser exports. Reopen with
+`agent-browser app` if access expires. Do not share its localhost URL; share
+the original HTTPS URL from `smallforce app editor`. Do not install another
+browser, bind a local server, or use file/data URLs as a workaround.
+
 Give the returned URL to the user. Explain: “You can edit the slides directly,
 or leave a comment on a slide or element and tell me to apply your comments.
 When you're happy with the saved deck, tell me to publish it.”
 
-The URL requires SmallForce login and membership in the owning organization.
+The shared HTTPS URL requires SmallForce login and membership in the owning organization.
 All organization members can edit. Opening it starts or reuses the managed
 OpenSlide server in this OS. Closing the browser leaves it running. Saved
 changes persist in the project; `smallforce app editor stop` stops the process,
 and reopening the URL starts it again. An OS restart also stops the process.
-Do not expose a raw OS/Vite port, start a public dev server, create a Railway
-service, change DNS or pass platform credentials to the editor.
+SmallForce manages hosting and editor access. Do not expose a raw OS/Vite port,
+start a public dev server, provision hosting, change DNS or pass platform
+credentials to the editor.
 
 ## Iterate with the user
 
@@ -89,6 +106,16 @@ with unrelated new edits. Production activation must finish successfully;
 verify the production URL and representative pages before reporting it live.
 Ordinary `app deploy` still defaults to Preview. The explicit production option
 publishes the release and promotes that same artifact without another build.
+
+Employees can run the normal deployment command: its build checks the registered
+project's current file permissions and runs in the managed build sandbox. Keep
+that path as the default. If support explicitly directs a local build, the
+existing fallback is `env -u SMALLFORCE_OS_BASE_URL bun run build`, followed by
+`smallforce app deploy --environment production --skip-build --json` after
+approval. The local build still snapshots source and rejects concurrent edits,
+but does not use the dedicated managed build sandbox. `--skip-build` packages
+existing output; it does not verify that the output matches later source edits.
+Never use it to publish stale output or bypass a permission denial.
 
 Use OpenSlide's browser export for PPTX/PDF and inspect the exported result
 before sharing. For an uploaded PowerPoint that must be edited in place, use

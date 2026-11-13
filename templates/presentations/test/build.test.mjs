@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
 import { spawn } from 'node:child_process';
-import { cp, mkdtemp, readFile, readdir, rm, symlink, writeFile } from 'node:fs/promises';
+import { cp, mkdir, mkdtemp, readFile, readdir, rm, symlink, writeFile } from 'node:fs/promises';
 import os from 'node:os';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -19,7 +19,7 @@ async function build(directory,onOutput=()=>{}) {
     child.on('error',reject);child.on('close',code=>resolve({code,output}));
   });
 }
-test('build emits the Celld worker and static deck without loading project env/config',async()=>{
+test('build emits the application worker and static deck without loading project env/config',async()=>{
   const project=await fixture();
   try{
     await writeFile(path.join(project,'.env'),'VITE_PRIVATE_TEST=ENV_MUST_NOT_APPEAR');
@@ -38,11 +38,26 @@ test('a source change during compilation aborts publication and clears stale out
   try{
     let changed=false,pending;
     const result=await build(project,text=>{
-      if(!changed&&text.includes('transform')){changed=true;pending=writeFile(path.join(project,'slides/getting-started/new.txt'),'concurrent user edit');}
+      // Assets are a template contract; customer deck names are not. This probe
+      // remains valid after the starter deck has been replaced or removed.
+      if(!changed&&text.includes('transform')){changed=true;pending=writeFile(path.join(project,'assets/build-concurrency-probe.txt'),'concurrent user edit');}
     });
     await pending;assert.ok(changed,'Vite started the compilation');assert.notEqual(result.code,0);
     assert.match(result.output,/Slides changed during the build/);
     assert.deepEqual(await readdir(path.join(project,'dist')),[]);
+  }finally{await rm(project,{recursive:true,force:true});}
+});
+test('the starter deck can be removed and replaced before building',async()=>{
+  const project=await fixture();
+  try{
+    await rm(path.join(project,'slides'),{recursive:true,force:true});
+    await mkdir(path.join(project,'slides/customer-deck'),{recursive:true});
+    await writeFile(path.join(project,'slides/customer-deck/index.tsx'),`import type { Page, SlideMeta } from '@open-slide/core';
+export const meta: SlideMeta = { title: 'Customer deck', createdAt: '2026-11-13T00:00:00Z' };
+export default [() => <div>Customer presentation</div>] satisfies Page[];
+`);
+    const result=await build(project);assert.equal(result.code,0,result.output);
+    assert.ok((await readFile(path.join(project,'dist/client/index.html'),'utf8')).includes('<html'));
   }finally{await rm(project,{recursive:true,force:true});}
 });
 test('source symlinks cannot smuggle files outside the presentation into the build',async()=>{

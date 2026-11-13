@@ -93,7 +93,7 @@ const instance = await env.ORDER_WORKFLOW.create({
 })
 ```
 
-Celld owns durable steps, retries, sleeps, events, pause/resume, restart, and
+SmallForce manages durable steps, retries, sleeps, events, pause/resume, restart, and
 crash replay. SmallForce resolves the environment's deployed release whenever
 the Workflow runs. Keep the Workflow `name`, `class_name`, and persisted step
 history compatible while instances remain active.
